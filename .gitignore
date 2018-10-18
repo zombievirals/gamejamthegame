@@ -37,3 +37,5 @@ sysinfo.txt
 
 # JetBrains Rider cache directory
 .idea/
+Assets/Plugins/Editor/JetBrains
+Assets/Plugins/Editor/JetBrains.meta
