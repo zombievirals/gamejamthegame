@@ -1,43 +1,25 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(CircleCollider2D))]
-
-public class Bullet : MonoBehaviour {
-
-
-    public Vector2 speed;
-
-    Rigidbody2D rb;
-
-   
-    void Start()
+namespace Distractions
+{
+    [RequireComponent(typeof(Rigidbody2D))]
+    public class Bullet : MonoBehaviour
     {
-
-        rb = GetComponent<Rigidbody2D>();
-        rb.velocity = speed;
-
-    }
-
-   
-    void Update()
-    {
-        rb.velocity = speed;
-        Destroy(gameObject, 3);
-    }
-
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Wall"))
+        public Vector2 Velocity;
+        public float Lifetime = 3f;
+    
+        private void Start()
         {
-           Destroy(gameObject);
-            
-        } 
-    }
+            var rb = GetComponent<Rigidbody2D>();
+            rb.bodyType = RigidbodyType2D.Kinematic;
+            rb.velocity = Velocity;
+            Destroy(gameObject, Lifetime);
+        }
 
-
-
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Wall"))
+                Destroy(gameObject);
+        }
+    } 
 }

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd9762d249544844abf9296d8ee305df, type: 3}
+  m_Name: PlayerCollider
+  m_EditorClassIdentifier: 
+  BounceFactor: 0.4
+  CollisionMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  CollisionMinDepth: -3.4028235e+38
+  CollisionMaxDepth: 3.4028235e+38
+  CollisionMaxSteps: 2
+  CollisionSafeResolution: 1
+  PositionOffset: {x: 0, y: 0}
+  Size: {x: 2.2, y: 3}
+  AngleOffset: 0

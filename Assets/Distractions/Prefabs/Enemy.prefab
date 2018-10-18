@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 212561307589299792}
   - component: {fileID: 114348794111871598}
   - component: {fileID: 61478890094429164}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -36,7 +36,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1690681326153302}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.4350207, y: 3.0461974, z: 0.08836755}
+  m_LocalPosition: {x: -4, y: 3, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
@@ -78,12 +78,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4a81054bd9cdb94cb811d29229f85d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 0}
   EnemyMoveSpeed: 3
-  enemyXplode:
+  DeathSounds:
   - {fileID: 8300000, guid: 154cd66d6a98679489ac689bb22e0e32, type: 3}
   - {fileID: 8300000, guid: 43b54d8ac57082342afa932f9f5ab007, type: 3}
-  source: {fileID: 0}
+  AudioSource: {fileID: 0}
 --- !u!212 &212561307589299792
 SpriteRenderer:
   m_ObjectHideFlags: 1

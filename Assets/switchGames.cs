@@ -21,17 +21,17 @@ public class switchGames : MonoBehaviour {
     public void switchGame()
     {
         Debug.Log("Switch game!");
-        if (GameState.currentGame == 1)
+        if (GameState.CurrentGame == 1)
         {
-            GameState.currentGame = 2;
+            GameState.CurrentGame = 2;
             blockDistractions.gameObject.SetActive(false);
             codeTracers.gameObject.SetActive(true);
             return;
         }
 
-        if(GameState.currentGame == 2)
+        if(GameState.CurrentGame == 2)
         {
-            GameState.currentGame = 1;
+            GameState.CurrentGame = 1;
             blockDistractions.gameObject.SetActive(true);
             codeTracers.gameObject.SetActive(false);
             return;
