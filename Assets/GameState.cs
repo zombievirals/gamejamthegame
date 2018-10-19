@@ -17,7 +17,7 @@ public static class GameState
     /// </summary>
     public static float CodeCombo;
     
-    public static int CurrentGame = MenuState;
+    public static int CurrentGame = BlockDistState;
 
     // States for GameState.CurrentGame. Affects which minigames tick active/inactive.
     public const int MenuState = 0;

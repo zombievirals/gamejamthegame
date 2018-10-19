@@ -274,7 +274,7 @@ GameObject:
   - component: {fileID: 250379883}
   - component: {fileID: 250379886}
   m_Layer: 0
-  m_Name: Button
+  m_Name: GameSwitchButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -339,7 +339,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 250379886}
-        m_MethodName: switchGame
+        m_MethodName: SwitchGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -348,7 +348,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &250379884
@@ -395,8 +395,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5503a76e794bf5c478560b030e9fff82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blockDistractions: {fileID: 848372618}
-  codeTracers: {fileID: 1695793215}
+  BlockDistGame: {fileID: 1695793215}
+  CodeTraceGame: {fileID: 848372618}
 --- !u!1 &252106251
 GameObject:
   m_ObjectHideFlags: 0
