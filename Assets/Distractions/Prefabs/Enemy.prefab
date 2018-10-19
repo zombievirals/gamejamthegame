@@ -82,7 +82,6 @@ MonoBehaviour:
   DeathSounds:
   - {fileID: 8300000, guid: 154cd66d6a98679489ac689bb22e0e32, type: 3}
   - {fileID: 8300000, guid: 43b54d8ac57082342afa932f9f5ab007, type: 3}
-  AudioSource: {fileID: 0}
 --- !u!212 &212561307589299792
 SpriteRenderer:
   m_ObjectHideFlags: 1
