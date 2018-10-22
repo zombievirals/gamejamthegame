@@ -6,5 +6,5 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scene/CodeTracer.unity
-    guid: 8219d04eefacfcf4aa75fae5126ef1e7
+    path: Assets/Scene/Main.unity
+    guid: 97ae9d502d24c514290e327ab0d7e2b3

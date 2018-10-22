@@ -9,15 +9,13 @@ namespace Distractions
         public float BulletSpeed;
         public float ShotCooldownSeconds;
         public GameObject BulletPrefab;
-        public AudioClip[] ShotSounds;
-        public AudioSource AudioSource;
         
         // Work vars
         private float _lastShotTime;
     
     	
     	private void Update () {       
-    	    if (_lastShotTime > Time.time)
+    	    if (!GameState.IsBlockDistractionsActive() || _lastShotTime > Time.time)
     	        return;
     
     	    var up = Input.GetKey(KeyCode.UpArrow);
@@ -52,7 +50,7 @@ namespace Distractions
         private void ShootBullet(int dir)
         {
             var bullet = Instantiate(BulletPrefab, transform.position, Quaternion.identity).GetComponent<Bullet>();
-            AudioSource.PlayOneShot(ShotSounds[Random.Range(0, ShotSounds.Length - 1)]);
+            AudioSystem.Main.PlayBlockDistBulletShoot();
             var velocity = MathExt.AngleToVec(dir * 45f) * BulletSpeed;
             bullet.Velocity = velocity;
             _lastShotTime = Time.time + ShotCooldownSeconds;

@@ -12,6 +12,9 @@ namespace Distractions
         public int FlashCount = 5;
         public float FlashAlpha = 0.5f;
         
+        // Public script accessible
+        public static Animator CameraAnim;
+        
         // Hitflash work vars
         private bool _flashing;
         private float _flashTimer;
@@ -37,17 +40,23 @@ namespace Distractions
                 normal = { textColor = Color.cyan }
             };
             _guiRect = new Rect(0, 0, Screen.width, Screen.height * 2 / 100f);
+            CameraAnim = Camera.main.GetComponent<Animator>();
         }
     
         protected override void UpdateMotion()
         {
-            Velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")) * MoveSpeed;
+            if (GameState.IsBlockDistractionsActive())
+                Velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")) * MoveSpeed;
+            else
+                Velocity = Vector2.zero;
         }
     
         private void LateUpdate()
         {
             if (_flashing)
                 UpdateFlash();
+
+            _sprite.enabled = GameState.IsBlockDistractionsActive();
         }
     
         private void OnTriggerStay2D(Collider2D collision)
@@ -55,13 +64,13 @@ namespace Distractions
             if (!collision.gameObject.CompareTag("Enemy"))
                 return;
             
-            GameState.Time -= Time.fixedDeltaTime / 4f;
+            GameState.Timer -= Time.fixedDeltaTime / 4f;
             StartFlash();
         }
     
         private void OnGUI()
         {
-            var text = string.Format("Time: " + GameState.Time);
+            var text = string.Format("Time: " + GameState.Timer);
             GUI.Label(_guiRect, text, _style);
         }
     

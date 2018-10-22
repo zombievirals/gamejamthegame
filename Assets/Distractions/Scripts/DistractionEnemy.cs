@@ -6,19 +6,16 @@ namespace Distractions
     {
         // Inspector attributes
         public float EnemyMoveSpeed = 2f;
-        public AudioClip[] DeathSounds;
         
         // Work vars
         private GameObject _plr;
-        private AudioSource _audio;
-        private Animator _cameraAnim;
+        private SpriteRenderer _sprite;
         
     	private void Start ()
 	    {
             _plr = GameObject.FindGameObjectWithTag("Player");
-	        _audio = _plr.GetComponent<AudioSource>();
-            _cameraAnim = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Animator>();
-        }
+		    _sprite = GetComponent<SpriteRenderer>();
+	    }
         
     	private void FixedUpdate ()
 	    {
@@ -26,17 +23,12 @@ namespace Distractions
             Vector2 target = _plr.transform.position;
     
             var difference = target - myPos + new Vector2(0.01f, 0);
-            transform.Translate(difference.normalized * EnemyMoveSpeed * Time.fixedDeltaTime);
+            transform.Translate(difference.normalized * EnemyMoveSpeed * GameState.BlockDistDeltaTime());
         }
-        
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (!collision.gameObject.CompareTag("Bullet"))
-                return;
-            
-            _cameraAnim.SetTrigger("ScreenShake");
-            _audio.PlayOneShot(DeathSounds[Random.Range(0, DeathSounds.Length - 1)]);
-            Destroy(gameObject);
-        }
+
+	    private void LateUpdate()
+	    {
+		    _sprite.enabled = GameState.IsBlockDistractionsActive();
+	    }
     }
 }

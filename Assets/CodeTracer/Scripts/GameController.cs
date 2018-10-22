@@ -1,110 +1,139 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class GameController : MonoBehaviour
+namespace CodeTracer
 {
-    private string codeWordInput;
-    private string theCodeWord;
-    public InputField codeInputField;
-
-    public GameObject codeTextObject;
-
-    private float fallSpeed = 1.0f;
-
-    //[SerializeField]
-    private string[] newCodeWord = new string[4]
-      {
+    public class GameController : MonoBehaviour
+    {
+        private static readonly string[] Words = {
             "coding",
             "your",
             "own",
-            "games"
-      };
-
-    private int i = 0;
-    private Vector3 startPos = new Vector3 (30,200,0);
-
-    public void OnTextChanged(string codeInput)
-    {
-        codeWordInput = codeInput;
-
-    }
-
-
-    public void Start()
-    {
-        RectTransform myRectTransform = codeTextObject.GetComponent<RectTransform>();
-        SetCodeWord();
-    }
-
-    public void Update()
-    {
-        RectTransform myRectTransform = codeTextObject.GetComponent<RectTransform>();
-        myRectTransform.localPosition += Vector3.down * fallSpeed;
-
-        if (codeWordInput == newCodeWord[i]) //code which checks if the word user types matches the word falling
+            "games",
+            "is",
+            "easier",
+            "than",
+            "you",
+            "think",
+            "you",
+            "know",
+            "you",
+            "should",
+            "try",
+            "this",
+            "online",
+            "unity",
+            "course",
+            "on",
+            "udemy",
+            "it",
+            "is",
+            "taught",
+            "by",
+            "a",
+            "software",
+            "engineer",
+            "and",
+            "a",
+            "game",
+            "developer",
+            "who",
+            "are",
+            "both",
+            "expert",
+            "instructors"
+        };
+        
+        public float WordFallSpeed = 1.1f;
+        public Vector3 StartPosition = new Vector3(30, 200, 0);
+    
+        public InputField InputField;
+        public RectTransform TextTransform;
+        
+        private int _currentWordPtr = 0;
+        private GUIStyle _style;
+        private Rect _guiRect;
+        
+        public void OnTextChanged(string codeInput)
         {
-            if (i >= newCodeWord.Length - 1)
+            // If I typed too many letters, cut it down to the relevant length.
+            if (codeInput.Length > Words[_currentWordPtr].Length)
+                codeInput = codeInput.Substring(0, Words[_currentWordPtr].Length);
+
+            // Check through each char and cut it off where the chars are incorrect.
+            for (var i = 0; i < codeInput.Length; i++)
             {
-                i = 0;
-            }
-            else
-            {
-                i += 1;
+                if (codeInput[i] == Words[_currentWordPtr][i])
+                    continue;
+
+                codeInput = i == 0 ? "" : codeInput.Substring(0, i);
             }
 
-            SetCodeWord();
-            GameState.CodeCombo += 1;
-            myRectTransform.localPosition = startPos;
-            fallSpeed += 0.2f;
+            InputField.text = codeInput;
+
+            // Reset the word if you got it right.
+            if (codeInput == Words[_currentWordPtr])
+            {
+                GameState.CodeCombo += 1;
+                NextWord();
+            }
         }
-    }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
 
-        if (collision.gameObject.CompareTag("Enemy"))
+        public void Start()
         {
-
-           
-            if (i >= newCodeWord.Length - 1)
+            SetWord();
+            _style = new GUIStyle
             {
-                i = 0;
-            }
-            else
-            {
-                i += 1;
-            }
+                alignment = TextAnchor.UpperRight, 
+                fontSize = Screen.height * 2 / 50, 
+                normal = { textColor = Color.yellow }
+            };
+            _guiRect = new Rect(0, 0, Screen.width, Screen.height * 2 / 100f);
+        }
 
-            SetCodeWord();
+        public void Update()
+        {
+            if (InputField.isFocused && !GameState.IsCodeTracerActive())
+                InputField.DeactivateInputField();
+            else if (!InputField.isFocused && GameState.IsCodeTracerActive())
+                InputField.ActivateInputField();
+                
+            TextTransform.localPosition += Vector3.down * WordFallSpeed * GameState.CodeTraceDeltaTime();
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
             GameState.CodeCombo = 0;
-            RectTransform myRectTransform = codeTextObject.GetComponent<RectTransform>();
-            myRectTransform.localPosition = startPos;
+            NextWord();
         }
 
+        private void OnGUI()
+        {
+            GUI.Label(_guiRect, string.Format("COMBO: " + GameState.CodeCombo), _style);
+        }
+
+        private void LateUpdate()
+        {
+            InputField.interactable = GameState.IsCodeTracerActive();
+            
+        }
+        
+        private void SetWord ()
+        {
+            var codeWord = TextTransform.GetComponent<Text>();
+            codeWord.text = Words[_currentWordPtr];
+            InputField.text = "";
+        }
+
+        private void NextWord ()
+        {
+            if (_currentWordPtr >= Words.Length - 1)
+                _currentWordPtr = 0;
+            else
+                _currentWordPtr += 1;
+            SetWord();
+            TextTransform.localPosition = StartPosition;
+        }
     }
-
-    public void SetCodeWord()
-    {
-        Text codeWord = codeTextObject.GetComponent<Text>();
-        codeWord.text = newCodeWord[i];
-        codeInputField.text = "";
-    }
-
-    void OnGUI()
-    {
-        int w = Screen.width, h = Screen.height;
-
-        GUIStyle style = new GUIStyle();
-
-        Rect rect = new Rect(0, 0, w, h * 2 / 100);
-        style.alignment = TextAnchor.UpperLeft;
-        style.fontSize = h * 2 / 50;
-        style.normal.textColor = new Color(0.0f, 0.0f, 1.0f, 1.0f);
-        string text = string.Format("COMBO: " + GameState.CodeCombo);
-        GUI.Label(rect, text, style);
-    }
-
-
 }
